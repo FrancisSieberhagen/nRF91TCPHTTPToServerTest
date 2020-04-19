@@ -313,8 +313,6 @@ char *sub_string(char *string, int position)
 }
 
 int send_tcp_msg() {
-    // char msgbuf[500];
-
     char *p_buff;
     char *p_big_buff;
     int buf_len = 500;
