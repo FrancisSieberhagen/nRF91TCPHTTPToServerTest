@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+
+tail -f /Users/$USER/Library/Application\ Support/nrfconnect/pc-nrfconnect-linkmonitor/logs/"`ls -t /Users/$USER/Library/Application\ Support/nrfconnect/pc-nrfconnect-linkmonitor/logs | head -1`"

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "nrfjprog --program $(PWD)/../$1/zephyr/merged.hex -f nrf91 --chiperase --reset --verify"
+
+nrfjprog --program $(PWD)/../$1/zephyr/merged.hex -f nrf91 --chiperase --reset --verify
+
