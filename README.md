@@ -1,6 +1,6 @@
 # nRF91TCPHTTPToServerTest
 
-## Test BSD library - NB-IoT TCP HTTP client connect to worldtimeapi.org
+## Test BSD library - NB-IoT TCP HTTP client connect to nRF91ServerTest
 
 ### nRF Connect SDK!
     https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/index.html
