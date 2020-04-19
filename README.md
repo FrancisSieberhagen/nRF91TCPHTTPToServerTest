@@ -1,4 +1,4 @@
-# nRF91TCPHTTPTest
+# nRF91TCPHTTPToServerTest
 
 ## Test BSD library - NB-IoT TCP HTTP client connect to worldtimeapi.org
 
