@@ -26,7 +26,7 @@
 
 ### Test Server 
     # Test Server
-    CONFIG_SERVER_HOST="72.105.18.205"
+    CONFIG_SERVER_HOST="172.105.18.205"
     CONFIG_SERVER_PORT=42501
 
 ### Build hex 
