@@ -13,6 +13,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include <modem/lte_lc.h>
+#include <modem/at_cmd.h>
+#include <modem/at_notif.h>
+#include <modem/modem_key_mgmt.h>
+
+
 #include "cJSON.h"
 
 #define LED_PORT	DT_ALIAS_LED0_GPIOS_CONTROLLER
@@ -86,9 +92,41 @@ static void led_on_off(char led, bool on_off)
     }
 }
 
+static const char at_lock_csl[] = "AT+COPS=1,2,\"65501\"";
+static const char at_change_mode[] = "AT%XSYSTEMMODE=0,1,0,0";
+
+#define IMEI_LEN 19
+
+int at_command(const char *constcmd) {
+
+    int err;
+    enum at_cmd_state at_state;
+    char imei_buf[IMEI_LEN];
+
+    err = at_cmd_write(constcmd, imei_buf, sizeof(imei_buf), &at_state);
+    if (err) {
+        LOG_ERR("at_cmd_write [%s] error:%d, at_state: %d",
+                log_strdup(constcmd), err, at_state);
+
+    }
+    if (at_state == AT_CMD_OK) {
+        LOG_INF("%s OK", log_strdup(constcmd));
+    }
+
+    return err;
+
+
+}
+
 static void init_modem(void)
 {
     int err;
+
+    err = at_command(at_lock_csl);
+    __ASSERT(err == 0, "ERROR: at_command %d %s\n", err, log_strdup(at_lock_csl));
+
+    err = at_command(at_change_mode);
+    __ASSERT(err == 0, "ERROR: at_command %d %s\n", err, log_strdup(at_change_mode));
 
     err = lte_lc_init_and_connect();
     __ASSERT(err == 0, "ERROR: LTE link init and connect %d\n", err);
@@ -98,6 +136,7 @@ static void init_modem(void)
 
     err = lte_lc_edrx_req(false);
     __ASSERT(err == 0, "ERROR: edrx %d\n", err);
+
 
 }
 
@@ -385,15 +424,17 @@ int send_tcp_msg() {
 
 void main(void)
 {
+    int err;
+
     init_led();
 
-    LOG_INF("BSD TCP HTTP Test V1.0");
+    LOG_INF("BSD TCP HTTP Test V1.1");
     led_on(LED1);
 
     LOG_INF("Initializing Modem");
     init_modem();
 
-    int err = tcp_ip_resolve();
+    err = tcp_ip_resolve();
     __ASSERT(err == 0, "ERROR: tcp_ip_resolve");
 
 
