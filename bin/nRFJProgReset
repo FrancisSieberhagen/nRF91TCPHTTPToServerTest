@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+#echo "nrfjprog -f nrf91 --reset"
+echo "nrfjprog -f nrf91 --pinreset"
+
+#nrfjprog -f nrf91 --reset
+nrfjprog -f nrf91 --pinreset
+
+
