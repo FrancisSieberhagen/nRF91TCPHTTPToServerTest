@@ -94,6 +94,7 @@ static void led_on_off(char led, bool on_off)
 
 static const char at_lock_csl[] = "AT+COPS=1,2,\"65501\"";
 static const char at_change_mode[] = "AT%XSYSTEMMODE=0,1,0,0";
+static const char at_pdp_context[] = "AT+CGDCONT=1,\"IP\",\"nbiot.vodacom.za\"";
 
 #define IMEI_LEN 19
 
@@ -122,11 +123,17 @@ static void init_modem(void)
 {
     int err;
 
-    err = at_command(at_lock_csl);
-    __ASSERT(err == 0, "ERROR: at_command %d %s\n", err, log_strdup(at_lock_csl));
+    err = at_command(at_pdp_context);
+    __ASSERT(err == 0, "ERROR: at_command %d %s\n", err, log_strdup(at_pdp_context));
 
     err = at_command(at_change_mode);
     __ASSERT(err == 0, "ERROR: at_command %d %s\n", err, log_strdup(at_change_mode));
+
+    err = at_command(at_lock_csl);
+    __ASSERT(err == 0, "ERROR: at_command %d %s\n", err, log_strdup(at_lock_csl));
+
+
+    LOG_INF("Initializing Modem: lte_lc_init_and_connect");
 
     err = lte_lc_init_and_connect();
     __ASSERT(err == 0, "ERROR: LTE link init and connect %d\n", err);
