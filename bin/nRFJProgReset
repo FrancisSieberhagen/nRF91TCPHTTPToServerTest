@@ -4,6 +4,8 @@
 echo "nrfjprog -f nrf91 --pinreset"
 
 #nrfjprog -f nrf91 --reset
+nrfjprog -f nrf91 --halt
+sleep 5
 nrfjprog -f nrf91 --pinreset
 
 
